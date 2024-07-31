@@ -1,6 +1,6 @@
 [submodule "incbin"]
 	path = incbin
 	url = https://github.com/graphitemaster/incbin.git
-[submodule "embed"]
+[submodule "cmake/embed"]
 	path = cmake/embed
 	url = https://github.com/magcks/embed.git
