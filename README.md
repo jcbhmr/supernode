@@ -19,7 +19,7 @@ chmod +x node
 <dd>
 
 ```pwsh
-Invoke-WebRequest https://github.com/jcbhmr/supernode/releases/download/v22.5.1/node -OutFile node.exe
+iwr https://github.com/jcbhmr/supernode/releases/download/v22.5.1/node -OutFile node.exe
 ```
 
 </dl>
