@@ -40,9 +40,9 @@ std::filesystem::path cache_supernode() {
                 #endif
             } else if (IsWindows()) {
                 #ifdef __x86_64__
-                filesystemzip::copy("/zip/node-windows-x64", app_cache_dir, std::filesystem::copy_options::recursive);
+                filesystemzip::copy("/zip/node-win-x64", app_cache_dir, std::filesystem::copy_options::recursive);
                 #elif defined(__aarch64__)
-                filesystemzip::copy("/zip/node-windows-arm64", app_cache_dir, std::filesystem::copy_options::recursive);
+                filesystemzip::copy("/zip/node-win-arm64", app_cache_dir, std::filesystem::copy_options::recursive);
                 #else
                 #error "unsupported architecture"
                 #endif
