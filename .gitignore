@@ -1,6 +1,3 @@
-# My generate temp directory
-/generate/
-
 # CMake build root
 /build/
 
