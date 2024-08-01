@@ -19,6 +19,4 @@ void copy_file(const std::filesystem::path &from, const std::filesystem::path &t
 namespace binlib {
 std::filesystem::path cache_supernode();
 [[noreturn]] void exec_replace(const std::filesystem::path, char *const argv[]);
-std::filesystem::path comspec();
-std::pair<std::filesystem::path, char**> windows_script_argv(const std::filesystem::path path, int argc, char *const argv[]);
 } // namespace binlib

@@ -17,7 +17,7 @@
 
 namespace binlib {
 std::filesystem::path cache_supernode() {
-    auto app_cache_dir = dirs::cache_dir().value() / (std::string(PROJECT_NAME) + "-" + std::string(PROJECT_VERSION));
+    auto app_cache_dir = dirs::cache_dir().value() / PROJECT_NAME / PROJECT_VERSION;
 
     if (!std::filesystem::exists(app_cache_dir)) {
         std::filesystem::create_directories(app_cache_dir);
@@ -101,36 +101,36 @@ std::filesystem::path cache_supernode() {
     }
 }
 
-std::filesystem::path comspec() {
-    if (!IsWindows()) {
-        throw std::runtime_error("not windows");
-    }
+// std::filesystem::path comspec() {
+//     if (!IsWindows()) {
+//         throw std::runtime_error("not windows");
+//     }
 
-    if (const auto comspec = std::getenv("COMSPEC")) {
-        return std::filesystem::path(comspec);
-    } else {
-        return std::filesystem::path("/C/Windows/System32/cmd.exe");
-    }
-}
+//     if (const auto comspec = std::getenv("COMSPEC")) {
+//         return std::filesystem::path(comspec);
+//     } else {
+//         return std::filesystem::path("/C/Windows/System32/cmd.exe");
+//     }
+// }
 
-std::pair<std::filesystem::path, char* const*> windows_script_argv(const std::filesystem::path &path, int argc, char *const argv[]) {
-    if (!IsWindows()) {
-        throw std::runtime_error("not windows");
-    }
+// std::pair<std::filesystem::path, char* const*> windows_script_argv(const std::filesystem::path &path, int argc, char *const argv[]) {
+//     if (!IsWindows()) {
+//         throw std::runtime_error("not windows");
+//     }
 
-    const auto comspec = binlib::comspec();
-    auto new_argv = std::vector<char *>();
-    new_argv.push_back(comspec.c_str());
-    new_argv.push_back("/d");
-    new_argv.push_back("/s");
-    new_argv.push_back("/c");
-    new_argv.push_back(path.c_str());
-    for (int i = 1; i < argc; i++) {
-        new_argv.push_back(argv[i]);
-    }
-    new_argv.push_back(nullptr);
-    return {comspec, new_argv.data()};
-}
+//     const auto comspec = binlib::comspec();
+//     auto new_argv = std::vector<char *>();
+//     new_argv.push_back(comspec.c_str());
+//     new_argv.push_back("/d");
+//     new_argv.push_back("/s");
+//     new_argv.push_back("/c");
+//     new_argv.push_back(path.c_str());
+//     for (int i = 1; i < argc; i++) {
+//         new_argv.push_back(argv[i]);
+//     }
+//     new_argv.push_back(nullptr);
+//     return {comspec, new_argv.data()};
+// }
 
 } // namespace binlib
 

@@ -5,13 +5,13 @@
 #include "../binlib.h"
 
 int main(int argc, char *argv[]) {
-    const auto app_cache_dir = binlib::cache_supernode();
-    if (IsLinux() || IsXnu()) {
-        binlib::exec_replace(app_cache_dir / "bin/npx", argv);
-    } else if (IsWindows()) {
-        const auto [bin, argv] = windows_script_argv(app_cache_dir / "npx.cmd", argc, argv);
-        binlib::exec_replace(bin, argv);
-    } else {
-        throw std::runtime_error("unsupported os");
-    }
+    // const auto app_cache_dir = binlib::cache_supernode();
+    // if (IsLinux() || IsXnu()) {
+    //     binlib::exec_replace(app_cache_dir / "bin/npx", argv);
+    // } else if (IsWindows()) {
+    //     const auto [bin, argv] = windows_script_argv(app_cache_dir / "npx.cmd", argc, argv);
+    //     binlib::exec_replace(bin, argv);
+    // } else {
+    //     throw std::runtime_error("unsupported os");
+    // }
 }
