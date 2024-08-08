@@ -1,7 +1,6 @@
 #pragma once
-#include <filesystem>
-#include <optional>
-#include <utility>
+
+namespace supernode {
 
 namespace dirs {
 std::optional<std::filesystem::path> home_dir();
@@ -20,3 +19,5 @@ namespace binlib {
 std::filesystem::path cache_supernode();
 [[noreturn]] void exec_replace(const std::filesystem::path, char *const argv[]);
 } // namespace binlib
+
+} // namespace supernode

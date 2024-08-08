@@ -13,6 +13,11 @@ CPMAddPackage(
   GIT_TAG 11.0.2
   OPTIONS "FMT_OS OFF" "FMT_UNICODE OFF"
 )
+FetchContent_Declare(fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+  GIT_TAG        11.0.2
+)
+FetchContent_MakeAvailable(fmt)
 
 set(build_zip_output node-darwin-arm64 node-darwin-x64 node-linux-arm64 node-linux-x64 node-win-arm64 node-win-x64 node-node_modules node-unixlike node-win)
 add_custom_command(
@@ -21,7 +26,16 @@ add_custom_command(
   DEPENDS node-darwin-arm64.tar.gz node-darwin-x64.tar.gz node-linux-arm64.tar.xz node-linux-x64.tar.xz node-win-arm64.zip node-win-x64.zip
   COMMENT "Building zip"
 )
+
 find_program(zip_command NAMES zip REQUIRED)
+
+add_library(supernode)
+target_sources(supernode PRIVATE src/lib.cpp)
+target_include_directories(supernode PUBLIC include)
+target_compile_features(supernode PRIVATE cxx_std_23)
+target_compile_options(supernode PRIVATE -mcosmo -fexceptions)
+target_link_libraries(supernode PRIVATE fmt::fmt)
+target_compile_definitions(supernode PRIVATE PROJECT_NAME="${PROJECT_NAME}" PROJECT_VERSION="${PROJECT_VERSION}" PROJECT_VERSION_MAJOR="${PROJECT_VERSION_MAJOR}" PROJECT_VERSION_MINOR="${PROJECT_VERSION_MINOR}" PROJECT_VERSION_PATCH="${PROJECT_VERSION_PATCH}" PROJECT_VERSION_TWEAK="${PROJECT_VERSION_TWEAK}")
 
 add_executable(node)
 target_sources(node PRIVATE src/bin/node.cpp src/binlib.cpp)
@@ -30,6 +44,7 @@ target_compile_options(node PRIVATE -mcosmo -fexceptions)
 target_link_options(node PRIVATE $<$<STREQUAL:${CMAKE_BUILD_TYPE},Debug>:-mdbg> $<$<STREQUAL:${CMAKE_BUILD_TYPE},Release>:-mtiny>)
 target_link_libraries(node PRIVATE fmt::fmt)
 target_compile_definitions(node PRIVATE PROJECT_NAME="${PROJECT_NAME}" PROJECT_VERSION="${PROJECT_VERSION}")
+add_dependencies(node ${build_zip_output})
 add_custom_command(TARGET node POST_BUILD COMMAND "${zip_command}" -qAr "$<TARGET_FILE:node>" ${build_zip_output})
 
 if(BUILD_TESTING)

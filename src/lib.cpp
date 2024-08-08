@@ -76,22 +76,8 @@ std::filesystem::path cache_supernode() {
 
 [[noreturn]] void exec_replace(const std::filesystem::path path, char *const argv[]) {
     if (IsWindows()) {
-        // https://stackoverflow.com/questions/1641182/how-can-i-catch-a-ctrl-c-event
-        struct sigaction sigint_handler;
-        sigint_handler.sa_handler = [](int s) {};
-        sigemptyset(&sigint_handler.sa_mask);
-        sigint_handler.sa_flags = 0;
-        sigaction(SIGINT, &sigint_handler, NULL);
 
-        pid_t pid;
-        const auto err = posix_spawn(&pid, path.c_str(), NULL, NULL, argv, NULL);
-        if (err) {
-          throw std::runtime_error(fmt::format("posix_spawn() {}: {} ({})", path.string(), err, strerror(err)));
-        }
-        pid_t status;
-        while (waitpid(pid, &status, 0) != -1)
-          ;
-        std::exit(status);
+        
     } else {
         const auto err = execv(path.c_str(), argv);
         if (err) {
